@@ -5,6 +5,7 @@
 #include "IcpManager.h"
 
 int main() {
+    // ICP algorithm implementation with non rigid transformation
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_original(new pcl::PointCloud<pcl::PointXYZRGB>);
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZRGB>);
     std::string original_model = "./model/office_chair_0.ply";
