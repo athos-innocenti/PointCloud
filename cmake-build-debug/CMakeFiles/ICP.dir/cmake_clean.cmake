@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ICP.dir/IcpManager.cpp.o"
+  "CMakeFiles/ICP.dir/Performance.cpp.o"
   "CMakeFiles/ICP.dir/Plotter.cpp.o"
   "CMakeFiles/ICP.dir/main.cpp.o"
   "ICP"

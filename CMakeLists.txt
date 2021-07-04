@@ -8,5 +8,5 @@ add_definitions(${PCL_DEFINITIONS})
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(ICP main.cpp Plotter.cpp Plotter.h IcpManager.cpp IcpManager.h)
+add_executable(ICP main.cpp Plotter.cpp Plotter.h IcpManager.cpp IcpManager.h Performance.cpp Performance.h)
 target_link_libraries (ICP ${PCL_LIBRARIES})
