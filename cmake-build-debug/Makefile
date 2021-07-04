@@ -170,6 +170,33 @@ IcpManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/IcpManager.cpp.s
 .PHONY : IcpManager.cpp.s
 
+Performance.o: Performance.cpp.o
+
+.PHONY : Performance.o
+
+# target to build an object file
+Performance.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/Performance.cpp.o
+.PHONY : Performance.cpp.o
+
+Performance.i: Performance.cpp.i
+
+.PHONY : Performance.i
+
+# target to preprocess a source file
+Performance.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/Performance.cpp.i
+.PHONY : Performance.cpp.i
+
+Performance.s: Performance.cpp.s
+
+.PHONY : Performance.s
+
+# target to generate assembly for a file
+Performance.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ICP.dir/build.make CMakeFiles/ICP.dir/Performance.cpp.s
+.PHONY : Performance.cpp.s
+
 Plotter.o: Plotter.cpp.o
 
 .PHONY : Plotter.o
@@ -236,6 +263,9 @@ help:
 	@echo "... IcpManager.o"
 	@echo "... IcpManager.i"
 	@echo "... IcpManager.s"
+	@echo "... Performance.o"
+	@echo "... Performance.i"
+	@echo "... Performance.s"
 	@echo "... Plotter.o"
 	@echo "... Plotter.i"
 	@echo "... Plotter.s"

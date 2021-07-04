@@ -7,17 +7,13 @@
 Plotter::Plotter() : viewer("ICP Demo") {
     background = 0.0;
     text = 1.0;
-    next_iteration = false;
 }
 
 Plotter::~Plotter() = default;
 
 void Plotter::keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x) {
-    // If user pressed "space" then next ICP iteration
     // If user pressed "s" close window, stop ICP
-    if (event.getKeySym() == "space" && event.keyDown())
-        next_iteration = true;
-    else if (event.getKeySym() == "s" && event.keyDown())
+    if (event.getKeySym() == "s" && event.keyDown())
         viewer.close();
 }
 
@@ -31,6 +27,7 @@ void Plotter::setViewer(const pcl::PointCloud<PointType>::Ptr &cloud_original,
 
     viewer.setBackgroundColor(background, background, background, v1);
     viewer.setBackgroundColor(background, background, background, v2);
+
     pcl::visualization::PointCloudColorHandlerCustom<PointType> org_clr(cloud_original, 255, 255, 255);
     pcl::visualization::PointCloudColorHandlerCustom<PointType> trn_clr(cloud_transformed, 20, 180, 20);
     pcl::visualization::PointCloudColorHandlerCustom<PointType> icp_clr(cloud_icp, 180, 20, 20);
@@ -56,22 +53,4 @@ void Plotter::setViewer(const pcl::PointCloud<PointType>::Ptr &cloud_original,
     viewer.addCoordinateSystem(1.0, "reference", v1);
 
     viewer.registerKeyboardCallback(&Plotter::keyboardEventOccurred, *this);
-}
-
-void Plotter::update(const pcl::PointCloud<PointType>::Ptr &cloud_icp, const std::string &iter_cnt) {
-    pcl::visualization::PointCloudColorHandlerCustom<PointType> icp_clr(cloud_icp, 180, 20, 20);
-    viewer.updateText(iter_cnt, 10, 60, 16, text, text, text, "iterations_cnt");
-    viewer.updatePointCloud(cloud_icp, icp_clr, "cloud_icp_v2");
-}
-
-pcl::visualization::PCLVisualizer Plotter::getViewer() const {
-    return viewer;
-}
-
-bool Plotter::isNextIteration() const {
-    return next_iteration;
-}
-
-void Plotter::setNextIteration(bool nextIteration) {
-    next_iteration = nextIteration;
 }

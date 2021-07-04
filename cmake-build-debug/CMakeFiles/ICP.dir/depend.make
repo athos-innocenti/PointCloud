@@ -2682,6 +2682,9 @@ CMakeFiles/ICP.dir/IcpManager.cpp.o: /usr/local/include/pcl-1.11/pcl/visualizati
 CMakeFiles/ICP.dir/IcpManager.cpp.o: /usr/local/include/pcl-1.11/pcl/visualization/point_cloud_handlers.h
 CMakeFiles/ICP.dir/IcpManager.cpp.o: /usr/local/include/pcl-1.11/pcl/visualization/point_picking_event.h
 
+CMakeFiles/ICP.dir/Performance.cpp.o: ../Performance.cpp
+CMakeFiles/ICP.dir/Performance.cpp.o: ../Performance.h
+
 CMakeFiles/ICP.dir/Plotter.cpp.o: ../Plotter.cpp
 CMakeFiles/ICP.dir/Plotter.cpp.o: ../Plotter.h
 CMakeFiles/ICP.dir/Plotter.cpp.o: /usr/local/Cellar/vtk@8.2/8.2.0_6/include/vtk-8.2/vtkABI.h
@@ -4835,6 +4838,7 @@ CMakeFiles/ICP.dir/Plotter.cpp.o: /usr/local/include/pcl-1.11/pcl/visualization/
 CMakeFiles/ICP.dir/Plotter.cpp.o: /usr/local/include/pcl-1.11/pcl/visualization/point_picking_event.h
 
 CMakeFiles/ICP.dir/main.cpp.o: ../IcpManager.h
+CMakeFiles/ICP.dir/main.cpp.o: ../Performance.h
 CMakeFiles/ICP.dir/main.cpp.o: ../Plotter.h
 CMakeFiles/ICP.dir/main.cpp.o: ../main.cpp
 CMakeFiles/ICP.dir/main.cpp.o: /usr/local/Cellar/vtk@8.2/8.2.0_6/include/vtk-8.2/vtkABI.h

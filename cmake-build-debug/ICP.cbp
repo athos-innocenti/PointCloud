@@ -126,6 +126,12 @@
 		<Unit filename="/Users/Athos/ClionProjects/ICP/IcpManager.h">
 			<Option target="ICP"/>
 		</Unit>
+		<Unit filename="/Users/Athos/ClionProjects/ICP/Performance.cpp">
+			<Option target="ICP"/>
+		</Unit>
+		<Unit filename="/Users/Athos/ClionProjects/ICP/Performance.h">
+			<Option target="ICP"/>
+		</Unit>
 		<Unit filename="/Users/Athos/ClionProjects/ICP/Plotter.cpp">
 			<Option target="ICP"/>
 		</Unit>

@@ -2682,6 +2682,9 @@ CMakeFiles/ICP.dir/IcpManager.cpp.o
  /usr/local/include/pcl-1.11/pcl/visualization/point_cloud_geometry_handlers.h
  /usr/local/include/pcl-1.11/pcl/visualization/point_cloud_handlers.h
  /usr/local/include/pcl-1.11/pcl/visualization/point_picking_event.h
+CMakeFiles/ICP.dir/Performance.cpp.o
+ /Users/Athos/ClionProjects/ICP/Performance.cpp
+ /Users/Athos/ClionProjects/ICP/Performance.h
 CMakeFiles/ICP.dir/Plotter.cpp.o
  /Users/Athos/ClionProjects/ICP/Plotter.cpp
  /Users/Athos/ClionProjects/ICP/Plotter.h
@@ -4836,6 +4839,7 @@ CMakeFiles/ICP.dir/Plotter.cpp.o
  /usr/local/include/pcl-1.11/pcl/visualization/point_picking_event.h
 CMakeFiles/ICP.dir/main.cpp.o
  /Users/Athos/ClionProjects/ICP/IcpManager.h
+ /Users/Athos/ClionProjects/ICP/Performance.h
  /Users/Athos/ClionProjects/ICP/Plotter.h
  /Users/Athos/ClionProjects/ICP/main.cpp
  /usr/local/Cellar/vtk@8.2/8.2.0_6/include/vtk-8.2/vtkABI.h

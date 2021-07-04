@@ -19,19 +19,9 @@ public:
                    const pcl::PointCloud<PointType>::Ptr &cloud_transformed,
                    const pcl::PointCloud<PointType>::Ptr &cloud_icp, int icp_num_iter);
 
-    void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void* x);
-
-    void update(const pcl::PointCloud<PointType>::Ptr &cloud_icp, const std::string &iter_cnt);
-
-    pcl::visualization::PCLVisualizer getViewer() const;
-
-    bool isNextIteration() const;
-
-    void setNextIteration(bool nextIteration);
+    void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x);
 
 private:
-    bool next_iteration;
-
     float background;
     float text;
 

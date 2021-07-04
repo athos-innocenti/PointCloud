@@ -7,11 +7,12 @@
 #include <utility>
 
 IcpManager::IcpManager(pcl::PointCloud<PointType>::Ptr cloud_original,
-                       pcl::PointCloud<PointType>::Ptr cloud_transformed)
-        : icp_num_iter(1), cloud_icp(new pcl::PointCloud<PointType>),
+                       pcl::PointCloud<PointType>::Ptr cloud_transformed, int max_iter)
+        : error(MAXFLOAT), time(MAXFLOAT), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
     this->cloud_original = std::move(cloud_original);
     this->cloud_transformed = std::move(cloud_transformed);
+    icp_num_iter = max_iter;
 }
 
 IcpManager::~IcpManager() = default;
@@ -40,74 +41,36 @@ void IcpManager::initialTransformation(double theta, float t_x, float t_y, float
     *cloud_transformed = *cloud_icp;
 }
 
-int IcpManager::runIcp() {
-    timer.tic();
+bool IcpManager::runIcp() {
+    // Run ICP algorithm
     pcl::IterativeClosestPoint<PointType, PointType> icp;
     icp.setMaximumIterations(icp_num_iter);
     icp.setInputSource(cloud_icp);
     icp.setInputTarget(cloud_original);
+    timer.tic();
     icp.align(*cloud_icp);
-    icp.setMaximumIterations(1);
-    double time = timer.toc();
-    times.push_back(time);
-    std::cout << "Applied " << icp_num_iter << " ICP iteration(s) in " << time << " ms" << std::endl;
+    time = timer.toc();
+    std::cout << "Applied " << icp_num_iter << " ICP iterations in " << time << " ms" << std::endl;
     if (icp.hasConverged()) {
-        errors.push_back(icp.getFitnessScore());
-        std::cout << "ICP has converged, fitness score = " << icp.getFitnessScore() << std::endl;
+        error = icp.getFitnessScore();
+        std::cout << "ICP has converged, fitness score = " << error << std::endl;
         std::cout << "ICP transformation " << icp_num_iter << " : cloud_icp -> cloud_original" << std::endl;
         transformation_matrix = icp.getFinalTransformation().cast<double>();
         print4x4Matrix(transformation_matrix);
+        // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
+        // NOT WORKING
+        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
+        return true;
     } else {
         PCL_ERROR("ICP has not converged.\n");
-        return (-1);
+        return false;
     }
+}
 
-    // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
-    visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
+double IcpManager::getError() const {
+    return error;
+}
 
-    // Display visualiser
-    // If ICP has converged print transformation between original pose and current pose
-    while (!visualizer.getViewer().wasStopped()) {
-        visualizer.getViewer().spinOnce();
-        if (visualizer.isNextIteration()) {
-            timer.tic();
-            icp.align(*cloud_icp);
-            time = timer.toc();
-            times.push_back(time);
-            std::cout << "ICP iteration applied in " << time << " ms" << std::endl;
-            if (icp.hasConverged()) {
-                errors.push_back(icp.getFitnessScore());
-                printf("ICP has converged, score = %+.0e\n", icp.getFitnessScore());
-                std::cout << "ICP transformation " << ++icp_num_iter << " : cloud_icp -> cloud_original" << std::endl;
-                transformation_matrix *= icp.getFinalTransformation().cast<double>();
-                print4x4Matrix(transformation_matrix);
-                std::stringstream ss;
-                ss.str("");
-                ss << icp_num_iter;
-                std::string iter_cnt = "Number of iterations = " + ss.str();
-                visualizer.update(cloud_icp, iter_cnt);
-            } else {
-                PCL_ERROR("\nICP has not converged.\n");
-                return (-1);
-            }
-        }
-        visualizer.setNextIteration(false);
-    }
-
-    // Save error and time values
-    errors_file.open("./performance/error.csv");
-    for (double &error : errors) {
-        std::cout << error << " ";
-        errors_file << error << "\n";
-    }
-    errors_file.close();
-    std::cout << "\n";
-    time_file.open("./performance/time.csv");
-    for (double &tm : times) {
-        std::cout << tm << " ";
-        time_file << tm << "\n";
-    }
-    time_file.close();
-
-    return (0);
+double IcpManager::getTime() const {
+    return time;
 }
