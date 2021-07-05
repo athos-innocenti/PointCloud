@@ -54,3 +54,7 @@ void Plotter::setViewer(const pcl::PointCloud<PointType>::Ptr &cloud_original,
 
     viewer.registerKeyboardCallback(&Plotter::keyboardEventOccurred, *this);
 }
+
+pcl::visualization::PCLVisualizer Plotter::getViewer() const {
+    return viewer;
+}

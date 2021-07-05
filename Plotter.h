@@ -21,6 +21,8 @@ public:
 
     void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x);
 
+    pcl::visualization::PCLVisualizer getViewer() const;
+
 private:
     float background;
     float text;
