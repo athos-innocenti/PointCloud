@@ -54,11 +54,11 @@ bool IcpManager::runIcp() {
     if (icp.hasConverged()) {
         error = icp.getFitnessScore();
         std::cout << "ICP has converged, fitness score = " << error << std::endl;
-        std::cout << "ICP transformation " << icp_num_iter << " : cloud_icp -> cloud_original" << std::endl;
+        std::cout << "ICP transformation: cloud_icp -> cloud_original" << std::endl;
         transformation_matrix = icp.getFinalTransformation().cast<double>();
         print4x4Matrix(transformation_matrix);
+
         // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
-        // NOT WORKING
         visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
         while (!visualizer.getViewer().wasStopped()) {
             visualizer.getViewer().spinOnce();
