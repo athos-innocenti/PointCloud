@@ -10,6 +10,8 @@ IcpManager::IcpManager(pcl::PointCloud<PointType>::Ptr cloud_original,
                        pcl::PointCloud<PointType>::Ptr cloud_transformed, int max_iter)
         : error(MAXFLOAT), time(MAXFLOAT), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
+    assert(cloud_original != nullptr);
+    assert(cloud_transformed != nullptr);
     this->cloud_original = std::move(cloud_original);
     this->cloud_transformed = std::move(cloud_transformed);
     icp_num_iter = max_iter;
@@ -59,15 +61,15 @@ bool IcpManager::runIcp() {
         print4x4Matrix(transformation_matrix);
 
         // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
+        assert(cloud_icp != nullptr);
         visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
-        while (!visualizer.getViewer().wasStopped()) {
+        while (!visualizer.getViewer().wasStopped())
             visualizer.getViewer().spinOnce();
-        }
-        return true;
     } else {
         PCL_ERROR("ICP has not converged.\n");
         return false;
     }
+    return true;
 }
 
 double IcpManager::getError() const {
