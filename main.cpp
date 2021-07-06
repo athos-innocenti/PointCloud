@@ -5,9 +5,11 @@
 #include "IcpManager.h"
 #include "Performance.h"
 
+typedef pcl::PointXYZRGB PointType;
+
 int main() {
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_original(new pcl::PointCloud<pcl::PointXYZRGB>);
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_transformed(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<PointType>::Ptr cloud_original(new pcl::PointCloud<PointType>);
+    pcl::PointCloud<PointType>::Ptr cloud_transformed(new pcl::PointCloud<PointType>);
     std::string original_model = "./model/table_0.ply";
     std::string transformed_model = "./model/table_1.ply";
 
@@ -42,7 +44,7 @@ int main() {
 
             std::random_device rd;
             std::mt19937 mt(rd());
-            std::uniform_real_distribution<float> dist(0.0, std::nextafter(2.0, DBL_MAX));
+            std::uniform_real_distribution<float> dist(0.0, std::nextafter(1.5, DBL_MAX));
 
             manager->initialTransformation(theta_radiant, dist(mt), dist(mt), dist(mt));
             bool hasConverged = manager->runIcp();

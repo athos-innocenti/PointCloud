@@ -17,6 +17,7 @@ double Performance::calculateAvg(const std::list<double> &list) {
 }
 
 void Performance::storeData(const std::list<double> &list, const std::string &name_file) {
+    assert(!list.empty());
     data_file.open(name_file);
     for (double value : list)
         data_file << value << "\n";
