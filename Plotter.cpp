@@ -12,7 +12,7 @@ Plotter::Plotter() : viewer("ICP Demo") {
 Plotter::~Plotter() = default;
 
 void Plotter::keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x) {
-    // If user pressed "s" close window, stop ICP
+    // If user press "s" close window
     if (event.getKeySym() == "s" && event.keyDown())
         viewer.close();
 }

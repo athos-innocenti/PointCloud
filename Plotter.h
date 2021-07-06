@@ -19,11 +19,11 @@ public:
                    const pcl::PointCloud<PointType>::Ptr &cloud_transformed,
                    const pcl::PointCloud<PointType>::Ptr &cloud_icp, int icp_num_iter);
 
-    void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x);
-
     pcl::visualization::PCLVisualizer getViewer() const;
 
 private:
+    void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void *x);
+
     float background;
     float text;
 
