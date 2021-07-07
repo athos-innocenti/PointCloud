@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/Athos/ClionProjects/ICP/IcpManager.cpp
-IcpManager.h
-/Users/Athos/ClionProjects/ICP/IcpManager.h
-utility
--
-
 /Users/Athos/ClionProjects/ICP/IcpManager.h
 pcl/registration/icp.h
 -

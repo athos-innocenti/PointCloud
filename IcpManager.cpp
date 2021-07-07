@@ -39,6 +39,7 @@ void IcpManager::initialTransformation(double theta, float t_x, float t_y, float
     std::cout << "Applying rigid transformation to: cloud_original -> cloud_icp" << std::endl;
     print4x4Matrix(transformation_matrix);
     pcl::transformPointCloud(*cloud_transformed, *cloud_icp, transformation_matrix);
+    // Backup cloud_icp into cloud_transformed for later use (Plotter)
     *cloud_transformed = *cloud_icp;
 }
 
