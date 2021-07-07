@@ -29,7 +29,6 @@ void IcpManager::print4x4Matrix(const Eigen::Matrix4d &matrix) {
 }
 
 void IcpManager::initialTransformation(double theta, float t_x, float t_y, float t_z) {
-    // Apply initial transformation matrix + Backup cloud_icp into cloud_transformed for later use
     transformation_matrix(0, 0) = std::cos(theta);
     transformation_matrix(0, 1) = -sin(theta);
     transformation_matrix(1, 0) = sin(theta);
@@ -44,20 +43,19 @@ void IcpManager::initialTransformation(double theta, float t_x, float t_y, float
 }
 
 bool IcpManager::runIcp() {
-    // Run ICP algorithm
-    pcl::IterativeClosestPoint<PointType, PointType> icp;
-    icp.setMaximumIterations(icp_num_iter);
-    icp.setInputSource(cloud_icp);
-    icp.setInputTarget(cloud_original);
+    std::unique_ptr<pcl::IterativeClosestPoint<PointType, PointType>> icp(new pcl::IterativeClosestPoint<PointType, PointType>);
+    icp->setMaximumIterations(icp_num_iter);
+    icp->setInputSource(cloud_icp);
+    icp->setInputTarget(cloud_original);
     timer.tic();
-    icp.align(*cloud_icp);
+    icp->align(*cloud_icp);
     time = timer.toc();
     std::cout << "Applied " << icp_num_iter << " ICP iterations in " << time << " ms" << std::endl;
-    if (icp.hasConverged()) {
-        error = icp.getFitnessScore();
+    if (icp->hasConverged()) {
+        error = icp->getFitnessScore();
         std::cout << "ICP has converged, fitness score = " << error << std::endl;
         std::cout << "ICP transformation: cloud_icp -> cloud_original" << std::endl;
-        transformation_matrix = icp.getFinalTransformation().cast<double>();
+        transformation_matrix = icp->getFinalTransformation().cast<double>();
         print4x4Matrix(transformation_matrix);
 
         // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
