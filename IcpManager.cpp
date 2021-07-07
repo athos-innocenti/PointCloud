@@ -6,15 +6,23 @@
 
 #include <utility>
 
-IcpManager::IcpManager(pcl::PointCloud<PointType>::Ptr cloud_original,
-                       pcl::PointCloud<PointType>::Ptr cloud_transformed, int max_iter)
-        : error(MAXFLOAT), time(MAXFLOAT), cloud_icp(new pcl::PointCloud<PointType>),
+IcpManager::IcpManager(std::string original_model, std::string transformed_model, int max_iter)
+        : error(MAXFLOAT), time(MAXFLOAT), cloud_original(new pcl::PointCloud<PointType>),
+          cloud_transformed(new pcl::PointCloud<PointType>), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
+    if (pcl::io::loadPLYFile(original_model, *cloud_original) < 0)
+        PCL_ERROR("Error loading cloud %s .\n", &original_model);
+    std::cout << "Loaded original model = " << cloud_original->size() << " points" << std::endl;
+
+    if (pcl::io::loadPLYFile(transformed_model, *cloud_transformed) < 0)
+        PCL_ERROR("Error loading cloud %s .\n", &transformed_model);
+    std::cout << "Loaded transformed model = " << cloud_transformed->size() << " points\n" << std::endl;
+
+    icp_num_iter = max_iter;
+
     assert(cloud_original != nullptr);
     assert(cloud_transformed != nullptr);
-    this->cloud_original = std::move(cloud_original);
-    this->cloud_transformed = std::move(cloud_transformed);
-    icp_num_iter = max_iter;
+    assert(cloud_icp != nullptr);
 }
 
 IcpManager::~IcpManager() = default;
@@ -39,12 +47,13 @@ void IcpManager::initialTransformation(double theta, float t_x, float t_y, float
     std::cout << "Applying rigid transformation to: cloud_original -> cloud_icp" << std::endl;
     print4x4Matrix(transformation_matrix);
     pcl::transformPointCloud(*cloud_transformed, *cloud_icp, transformation_matrix);
+
     // Backup cloud_icp into cloud_transformed for later use (Plotter)
     *cloud_transformed = *cloud_icp;
 }
 
 bool IcpManager::runIcp() {
-    std::unique_ptr<pcl::IterativeClosestPoint<PointType, PointType>> icp(new pcl::IterativeClosestPoint<PointType, PointType>);
+    std::unique_ptr<IterativeClosestPoint> icp(new IterativeClosestPoint);
     icp->setMaximumIterations(icp_num_iter);
     icp->setInputSource(cloud_icp);
     icp->setInputTarget(cloud_original);
@@ -60,7 +69,6 @@ bool IcpManager::runIcp() {
         print4x4Matrix(transformation_matrix);
 
         // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
-        assert(cloud_icp != nullptr);
         visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
         while (!visualizer.getViewer().wasStopped())
             visualizer.getViewer().spinOnce();

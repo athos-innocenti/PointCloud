@@ -5,17 +5,18 @@
 #ifndef ICP_ICPMANAGER_H
 #define ICP_ICPMANAGER_H
 
+#include <pcl/io/ply_io.h>
 #include <pcl/registration/icp.h>
 #include <pcl/console/time.h>
 
 #include "Plotter.h"
 
 typedef pcl::PointXYZRGB PointType;
+typedef pcl::IterativeClosestPoint<PointType, PointType> IterativeClosestPoint;
 
 class IcpManager {
 public:
-    IcpManager(pcl::PointCloud<PointType>::Ptr cloud_original,
-               pcl::PointCloud<PointType>::Ptr cloud_transformed, int max_iter);
+    IcpManager(std::string original_model, std::string transformed_model, int max_iter);
 
     virtual ~IcpManager();
 
