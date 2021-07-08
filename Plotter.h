@@ -7,7 +7,7 @@
 
 #include <pcl/visualization/pcl_visualizer.h>
 
-typedef pcl::PointXYZRGB PointType;
+typedef pcl::PointXYZ PointType;
 
 class Plotter {
 public:

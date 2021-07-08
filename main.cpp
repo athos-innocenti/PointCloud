@@ -5,14 +5,14 @@
 
 // Initial rotation's angle from 0 to 2PI with angle's step PI/12 = 15°
 #define ANGLE_STEP 24
-// 50 tries for each angle with different initial translation vector each
-#define TRIES 50
+// 10 tries for each angle with different initial translation vector each
+#define TRIES 10
 // ICP maximum iterations = 100
 #define MAX_ITERATION 100
-// Random initial translation vector for each try with max_translation = 2.0
-#define MAX_TRANSLATION 2.0
+// Random initial translation vector for each try with max_translation = 1.0
+#define MAX_TRANSLATION 1.0
 
-typedef pcl::PointXYZRGB PointType;
+typedef pcl::PointXYZ PointType;
 
 int main() {
     std::string original_model = "./model/office_chair_0.ply";

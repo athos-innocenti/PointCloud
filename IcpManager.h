@@ -11,7 +11,7 @@
 
 #include "Plotter.h"
 
-typedef pcl::PointXYZRGB PointType;
+typedef pcl::PointXYZ PointType;
 typedef pcl::IterativeClosestPoint<PointType, PointType> IterativeClosestPoint;
 
 class IcpManager {
