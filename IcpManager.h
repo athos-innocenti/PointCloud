@@ -45,6 +45,7 @@ private:
     Eigen::Matrix4d transformation_matrix;
 
     Plotter visualizer;
+    bool visualize;
 };
 
 
