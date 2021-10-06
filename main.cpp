@@ -3,10 +3,10 @@
 #include "IcpManager.h"
 #include "Performance.h"
 
-// Initial rotation's angle from 0 to 2PI with angle's step PI/12 = 15°
-#define ANGLE_STEP 24
+// Initial rotation's angle from 0 to 2PI with angle's step PI/6 = 30°
+#define ANGLE_STEP 12
 // 10 tries for each angle with different initial translation vector each
-#define TRIES 10
+#define TRIES 15
 // ICP maximum iterations = 100
 #define MAX_ITERATION 100
 // Random initial translation vector for each try with max_translation = 1.0
@@ -26,11 +26,11 @@ int main() {
     std::mt19937 mt(rd());
     std::uniform_real_distribution<float> dist(0.0, std::nextafter(MAX_TRANSLATION, DBL_MAX));
 
-    for (int theta_iter = 0; theta_iter < ANGLE_STEP; theta_iter++) {
+    for (int theta_iter = 0; theta_iter <= ANGLE_STEP; theta_iter++) {
         double theta_radiant = (2 * M_PI * theta_iter) / ANGLE_STEP;
         std::cout << "ANGLE: " << theta_radiant * (180.0 / M_PI) << "\n" << std::endl;
-        std::list<double> errors;
-        std::list<double> times;
+        std::unique_ptr<std::list<double>> errors(new std::list<double>);
+        std::unique_ptr<std::list<double>> times(new std::list<double>);
         for (int t = 1; t <= TRIES; t++) {
             std::cout << "ITERATION: " << t << std::endl;
             // Load point clouds and set maximum iterations
@@ -42,12 +42,12 @@ int main() {
             bool hasConverged = manager->runIcp();
             if (!hasConverged)
                 return (-1);
-            errors.push_back(manager->getError());
-            times.push_back(manager->getTime());
+            errors->push_back(manager->getError());
+            times->push_back(manager->getTime());
         }
         // Calculate average error and time value
-        avg_error.push_back(Performance::calculateAvg(errors));
-        avg_time.push_back(Performance::calculateAvg(times));
+        avg_error.push_back(Performance::calculateAvg(*errors));
+        avg_time.push_back(Performance::calculateAvg(*times));
     }
     // Store average values
     performance->storeData(avg_error, "./performance/error.csv");

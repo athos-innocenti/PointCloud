@@ -21,7 +21,7 @@ def plotter(errors, time, angles):
 def main():
     error_values = data_reader(pd.read_csv('error.csv', header=None))
     time_values = data_reader(pd.read_csv('time.csv', header=None))
-    plotter(error_values, time_values, angles=np.arange(0, 360 + 1, 15))
+    plotter(error_values, time_values, angles=np.arange(0, 360 + 1, 30))
 
 
 if __name__ == '__main__':
