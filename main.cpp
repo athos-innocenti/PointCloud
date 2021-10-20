@@ -3,21 +3,20 @@
 #include "IcpManager.h"
 #include "Performance.h"
 
-// Initial rotation's angle from 0 to 2PI with angle's step PI/6 = 30°
+// Initial rotation's angle from 0 to 2PI with angle's step of PI/6
 #define ANGLE_STEP 12
-// 10 tries for each angle with different initial translation vector each
-#define TRIES 15
-// ICP maximum iterations = 100
-#define MAX_ITERATION 100
-// Random initial translation vector for each try with max_translation = 1.0
+// Number of tries for each angle
+#define TRIES 10
+// Maximum ICP iterations
+#define MAX_ITERATIONS 100
+// Random initial translation vector, different for each try, with max translation = 1.0
 #define MAX_TRANSLATION 1.0
-
-typedef pcl::PointXYZ PointType;
+// Original point cloud (ends with 0)
+#define ORIGINAL_MODEL "./model/coffee_mug_0.ply"
+// Transformed point cloud (ends with 1 - moving point cloud with fewer points)
+#define TRANSFORMED_MODEL "./model/coffee_mug_1.ply"
 
 int main() {
-    std::string original_model = "./model/office_chair_0.ply";
-    std::string transformed_model = "./model/office_chair_1.ply";
-
     std::list<double> avg_error;
     std::list<double> avg_time;
     auto *performance = new Performance();
@@ -34,7 +33,7 @@ int main() {
         for (int t = 1; t <= TRIES; t++) {
             std::cout << "ITERATION: " << t << std::endl;
             // Load point clouds and set maximum iterations
-            std::unique_ptr<IcpManager> manager(new IcpManager(original_model, transformed_model, MAX_ITERATION));
+            std::unique_ptr<IcpManager> manager(new IcpManager(ORIGINAL_MODEL, TRANSFORMED_MODEL, MAX_ITERATIONS));
 
             // Apply initial transformation matrix
             manager->initialTransformation(theta_radiant, dist(mt), dist(mt), dist(mt));
