@@ -16,6 +16,9 @@
 // Transformed point cloud (ends with 1 - moving point cloud with fewer points)
 #define TRANSFORMED_MODEL "./model/coffee_mug_1.ply"
 
+// Radiant
+#define RADIANT(count) ((2 * M_PI * count) / ANGLE_STEP)
+
 int main() {
     std::list<double> avg_error;
     std::list<double> avg_time;
@@ -25,9 +28,8 @@ int main() {
     std::mt19937 mt(rd());
     std::uniform_real_distribution<float> dist(0.0, std::nextafter(MAX_TRANSLATION, DBL_MAX));
 
-    for (int theta_iter = 0; theta_iter <= ANGLE_STEP; theta_iter++) {
-        double theta_radiant = (2 * M_PI * theta_iter) / ANGLE_STEP;
-        std::cout << "ANGLE: " << theta_radiant * (180.0 / M_PI) << "\n" << std::endl;
+    for (int angle_iter = 0; angle_iter <= ANGLE_STEP; angle_iter++) {
+        std::cout << "ANGLE: " << RADIANT(angle_iter) * (180.0 / M_PI) << "\n" << std::endl;
         std::unique_ptr<std::list<double>> errors(new std::list<double>);
         std::unique_ptr<std::list<double>> times(new std::list<double>);
         for (int t = 1; t <= TRIES; t++) {
@@ -36,7 +38,7 @@ int main() {
             std::unique_ptr<IcpManager> manager(new IcpManager(ORIGINAL_MODEL, TRANSFORMED_MODEL, MAX_ITERATIONS));
 
             // Apply initial transformation matrix
-            manager->initialTransformation(theta_radiant, dist(mt), dist(mt), dist(mt));
+            manager->initialTransformation(RADIANT(angle_iter), dist(mt), dist(mt), dist(mt));
             // Run ICP algorithm
             bool hasConverged = manager->runIcp();
             if (!hasConverged)
