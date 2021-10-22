@@ -15,8 +15,7 @@ def plotter(values, y_label):
 
 
 def main():
-    # source = ['Error', 'Time']
-    sources = ['Error']
+    sources = ['Error', 'Time']
     for src in sources:
         values = data_reader(pd.read_csv(src.lower() + '.csv', header=None))
         plotter(values, src)
