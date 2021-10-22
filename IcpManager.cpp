@@ -47,7 +47,7 @@ void IcpManager::initialTransformation(double theta, float t_x, float t_y, float
     transformation_matrix(0, 3) = t_x;
     transformation_matrix(1, 3) = t_y;
     transformation_matrix(2, 3) = t_z;
-    std::cout << "Applying rigid transformation to: cloud_original -> cloud_icp" << std::endl;
+    std::cout << "APPLYING INITIAL RIGID TRANSFORMATION:" << std::endl;
     print4x4Matrix(transformation_matrix);
     pcl::transformPointCloud(*cloud_transformed, *cloud_icp, transformation_matrix);
 
@@ -67,7 +67,7 @@ bool IcpManager::runIcp() {
     if (icp->hasConverged()) {
         error = icp->getFitnessScore();
         std::cout << "ICP has converged, fitness score = " << error << std::endl;
-        std::cout << "ICP transformation: cloud_icp -> cloud_original" << std::endl;
+        std::cout << "RESULTING ICP TRANSFORMATION:" << std::endl;
         transformation_matrix = icp->getFinalTransformation().cast<double>();
         print4x4Matrix(transformation_matrix);
 
