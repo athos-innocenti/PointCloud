@@ -1,3 +1,7 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
   "CXX"
@@ -38,6 +42,10 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/local/opt/qt@5/lib/QtCore.framework"
   "/usr/local/opt/qt@5/lib/QtCore.framework/Headers"
   "/usr/local/opt/qt@5/./mkspecs/macx-clang"
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
   )
 
 # Targets to which this target links.

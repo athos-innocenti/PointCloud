@@ -26,7 +26,7 @@ int main() {
 
     std::random_device rd;
     std::mt19937 mt(rd());
-    std::uniform_real_distribution<float> dist(0.0, std::nextafter(MAX_TRANSLATION, DBL_MAX));
+    std::uniform_real_distribution<double> dist(0.0, std::nextafter(MAX_TRANSLATION, DBL_MAX));
 
     for (int angle_iter = 0; angle_iter <= ANGLE_STEP; angle_iter++) {
         std::cout << "ANGLE: " << RADIANT(angle_iter) * (180.0 / M_PI) << "\n" << std::endl;

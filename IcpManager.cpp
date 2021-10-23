@@ -39,7 +39,7 @@ void IcpManager::print4x4Matrix(const Eigen::Matrix4d &matrix) {
     printf("t = < %6.3f, %6.3f, %6.3f >\n\n", matrix(0, 3), matrix(1, 3), matrix(2, 3));
 }
 
-void IcpManager::initialTransformation(double theta, float t_x, float t_y, float t_z) {
+void IcpManager::initialTransformation(double theta, double t_x, double t_y, double t_z) {
     transformation_matrix(0, 0) = std::cos(theta);
     transformation_matrix(0, 1) = -sin(theta);
     transformation_matrix(1, 0) = sin(theta);

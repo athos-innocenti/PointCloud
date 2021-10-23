@@ -22,7 +22,7 @@ public:
 
     bool runIcp();
 
-    void initialTransformation(double theta, float t_x, float t_y, float t_z);
+    void initialTransformation(double theta, double t_x, double t_y, double t_z);
 
     double getError() const;
 
