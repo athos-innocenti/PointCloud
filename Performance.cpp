@@ -12,7 +12,7 @@ Performance::~Performance() = default;
 double Performance::calculateAvg(const std::list<double> &list) {
     assert(!list.empty());
     double avg = std::accumulate(std::begin(list), std::end(list), 0.0);
-    avg /= (double)list.size();
+    avg /= static_cast<double>(list.size());
     return avg;
 }
 
