@@ -39,11 +39,16 @@ void IcpManager::print4x4Matrix(const Eigen::Matrix4d &matrix) {
     printf("t = < %6.3f, %6.3f, %6.3f >\n\n", matrix(0, 3), matrix(1, 3), matrix(2, 3));
 }
 
-void IcpManager::initialTransformation(double theta, double t_x, double t_y, double t_z) {
-    transformation_matrix(0, 0) = std::cos(theta);
-    transformation_matrix(0, 1) = -sin(theta);
-    transformation_matrix(1, 0) = sin(theta);
-    transformation_matrix(1, 1) = std::cos(theta);
+void IcpManager::initialTransformation(double r_x, double r_y, double r_z, double t_x, double t_y, double t_z) {
+    transformation_matrix(0, 0) = std::cos(r_z) * std::cos(r_y);
+    transformation_matrix(0, 1) = (std::cos(r_z) * std::sin(r_y) * std::sin(r_x)) - (std::sin(r_y) * std::cos(r_x));
+    transformation_matrix(0, 2) = (std::sin(r_z) * std::sin(r_x)) + (std::cos(r_z) * std::sin(r_y) * std::cos(r_x));
+    transformation_matrix(1, 0) = std::sin(r_z) * std::cos(r_y);
+    transformation_matrix(1, 1) = (std::cos(r_z) * std::cos(r_x)) + (std::sin(r_z) * std::sin(r_y) * std::sin(r_x));
+    transformation_matrix(1, 2) = (std::sin(r_z) * std::sin(r_y) * std::cos(r_x)) - (std::cos(r_z) * std::sin(r_x));
+    transformation_matrix(2, 0) = -1 * std::sin(r_y);
+    transformation_matrix(2, 1) = std::cos(r_y) * std::sin(r_x);
+    transformation_matrix(2, 2) = std::cos(r_y) * std::cos(r_x);
     transformation_matrix(0, 3) = t_x;
     transformation_matrix(1, 3) = t_y;
     transformation_matrix(2, 3) = t_z;
@@ -63,7 +68,7 @@ bool IcpManager::runIcp() {
     timer.tic();
     icp->align(*cloud_icp);
     time = timer.toc();
-    std::cout << "Applied " << icp_num_iter << " ICP iterations in " << time << " ms" << std::endl;
+    std::cout << "Applied " << icp->nr_iterations_ << " ICP iterations in " << time << " ms" << std::endl;
     if (icp->hasConverged()) {
         error = icp->getFitnessScore();
         std::cout << "ICP has converged, fitness score = " << error << std::endl;

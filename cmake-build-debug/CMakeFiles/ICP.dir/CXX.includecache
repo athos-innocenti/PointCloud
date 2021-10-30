@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/Athos/ClionProjects/ICP/IcpManager.cpp
-IcpManager.h
-/Users/Athos/ClionProjects/ICP/IcpManager.h
-utility
--
-
 /Users/Athos/ClionProjects/ICP/IcpManager.h
 pcl/io/ply_io.h
 -
@@ -21,6 +15,22 @@ pcl/console/time.h
 -
 Plotter.h
 /Users/Athos/ClionProjects/ICP/Plotter.h
+
+/Users/Athos/ClionProjects/ICP/Performance.cpp
+numeric
+-
+Performance.h
+/Users/Athos/ClionProjects/ICP/Performance.h
+
+/Users/Athos/ClionProjects/ICP/Performance.h
+fstream
+-
+list
+-
+random
+-
+IcpManager.h
+/Users/Athos/ClionProjects/ICP/IcpManager.h
 
 /Users/Athos/ClionProjects/ICP/Plotter.h
 pcl/visualization/pcl_visualizer.h
