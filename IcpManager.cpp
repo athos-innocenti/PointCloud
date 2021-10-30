@@ -4,26 +4,24 @@
 
 #include "IcpManager.h"
 
-IcpManager::IcpManager(std::string original_model, std::string transformed_model, int max_iter)
+IcpManager::IcpManager(const std::string& original_model, const std::string& transformed_model, int max_iter)
         : error(MAXFLOAT), time(MAXFLOAT), cloud_original(new pcl::PointCloud<PointType>),
           cloud_transformed(new pcl::PointCloud<PointType>), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
     if (pcl::io::loadPLYFile(original_model, *cloud_original) < 0)
-        PCL_ERROR("Error loading cloud %s .\n", &original_model);
+        PCL_ERROR("Error loading original cloud.");
+    assert(cloud_original->size() != 0);
     std::cout << "Loaded original model = " << cloud_original->size() << " points" << std::endl;
 
     if (pcl::io::loadPLYFile(transformed_model, *cloud_transformed) < 0)
-        PCL_ERROR("Error loading cloud %s .\n", &transformed_model);
+        PCL_ERROR("Error loading transformed cloud.");
+    assert(cloud_transformed->size() != 0);
     std::cout << "Loaded transformed model = " << cloud_transformed->size() << " points\n" << std::endl;
 
     icp_num_iter = max_iter;
 
-    assert(cloud_original != nullptr);
-    assert(cloud_transformed != nullptr);
-    assert(cloud_icp != nullptr);
-
     // If visualize is true plot result
-    visualize = false;
+    visualize = true;
 }
 
 IcpManager::~IcpManager() = default;
@@ -58,7 +56,7 @@ void IcpManager::initialTransformation(double r_x, double r_y, double r_z, doubl
     *cloud_transformed = *cloud_icp;
 }
 
-bool IcpManager::runIcp() {
+void IcpManager::runIcp() {
     std::unique_ptr<IterativeClosestPoint> icp(new IterativeClosestPoint);
     icp->setMaximumIterations(icp_num_iter);
     icp->setInputSource(cloud_icp);
@@ -67,24 +65,20 @@ bool IcpManager::runIcp() {
     icp->align(*cloud_icp);
     time = timer.toc();
     std::cout << "Applied " << icp->nr_iterations_ << " ICP iterations in " << time << " ms" << std::endl;
-    if (icp->hasConverged()) {
-        error = icp->getFitnessScore();
-        std::cout << "ICP has converged, fitness score = " << error << std::endl;
-        std::cout << "RESULTING ICP TRANSFORMATION:" << std::endl;
-        transformation_matrix = icp->getFinalTransformation().cast<double>();
-        print4x4Matrix(transformation_matrix);
+    assert(icp->hasConverged());
+    error = icp->getFitnessScore();
+    std::cout << "ICP has converged, fitness score = " << error << std::endl;
+    std::cout << "RESULTING ICP TRANSFORMATION:" << std::endl;
+    transformation_matrix = icp->getFinalTransformation().cast<double>();
+    print4x4Matrix(transformation_matrix);
 
-        // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
-        if (visualize) {
-            visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
-            while (!visualizer.getViewer().wasStopped())
-                visualizer.getViewer().spinOnce();
-        }
-    } else {
-        PCL_ERROR("ICP has not converged.\n");
-        return false;
+    // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
+    if (visualize) {
+        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
+        while (!visualizer.getViewer().wasStopped())
+            visualizer.getViewer().spinOnce();
+        visualizer.getViewer().close();
     }
-    return true;
 }
 
 double IcpManager::getError() const {
