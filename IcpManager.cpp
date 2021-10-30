@@ -21,7 +21,7 @@ IcpManager::IcpManager(const std::string& original_model, const std::string& tra
     icp_num_iter = max_iter;
 
     // If visualize is true plot result
-    visualize = true;
+    visualize = false;
 }
 
 IcpManager::~IcpManager() = default;
