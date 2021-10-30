@@ -39,7 +39,7 @@ void IcpManager::print4x4Matrix(const Eigen::Matrix4d &matrix) {
 
 void IcpManager::initialTransformation(double r_x, double r_y, double r_z, double t_x, double t_y, double t_z) {
     transformation_matrix(0, 0) = std::cos(r_z) * std::cos(r_y);
-    transformation_matrix(0, 1) = (std::cos(r_z) * std::sin(r_y) * std::sin(r_x)) - (std::sin(r_y) * std::cos(r_x));
+    transformation_matrix(0, 1) = (std::cos(r_z) * std::sin(r_y) * std::sin(r_x)) - (std::sin(r_z) * std::cos(r_x));
     transformation_matrix(0, 2) = (std::sin(r_z) * std::sin(r_x)) + (std::cos(r_z) * std::sin(r_y) * std::cos(r_x));
     transformation_matrix(1, 0) = std::sin(r_z) * std::cos(r_y);
     transformation_matrix(1, 1) = (std::cos(r_z) * std::cos(r_x)) + (std::sin(r_z) * std::sin(r_y) * std::sin(r_x));
