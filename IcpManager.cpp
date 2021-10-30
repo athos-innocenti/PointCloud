@@ -4,8 +4,6 @@
 
 #include "IcpManager.h"
 
-#include <utility>
-
 IcpManager::IcpManager(std::string original_model, std::string transformed_model, int max_iter)
         : error(MAXFLOAT), time(MAXFLOAT), cloud_original(new pcl::PointCloud<PointType>),
           cloud_transformed(new pcl::PointCloud<PointType>), cloud_icp(new pcl::PointCloud<PointType>),

@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/Users/Athos/ClionProjects/ICP/IcpManager.cpp
+IcpManager.h
+/Users/Athos/ClionProjects/ICP/IcpManager.h
+
 /Users/Athos/ClionProjects/ICP/IcpManager.h
 pcl/io/ply_io.h
 -
@@ -23,10 +27,6 @@ Performance.h
 /Users/Athos/ClionProjects/ICP/Performance.h
 
 /Users/Athos/ClionProjects/ICP/Performance.h
-fstream
--
-list
--
 random
 -
 IcpManager.h
@@ -35,6 +35,10 @@ IcpManager.h
 /Users/Athos/ClionProjects/ICP/Plotter.h
 pcl/visualization/pcl_visualizer.h
 -
+
+/Users/Athos/ClionProjects/ICP/main.cpp
+Performance.h
+/Users/Athos/ClionProjects/ICP/Performance.h
 
 /usr/local/Cellar/vtk@8.2/8.2.0_6/include/vtk-8.2/vtkABI.h
 
