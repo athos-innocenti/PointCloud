@@ -16,7 +16,7 @@ typedef pcl::IterativeClosestPoint<PointType, PointType> IterativeClosestPoint;
 
 class IcpManager {
 public:
-    IcpManager(const std::string& original_model, const std::string& transformed_model, int max_iter);
+    IcpManager(const std::string &original_model, const std::string &transformed_model, int max_iter);
 
     virtual ~IcpManager();
 

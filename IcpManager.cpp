@@ -4,7 +4,7 @@
 
 #include "IcpManager.h"
 
-IcpManager::IcpManager(const std::string& original_model, const std::string& transformed_model, int max_iter)
+IcpManager::IcpManager(const std::string &original_model, const std::string &transformed_model, int max_iter)
         : error(MAXFLOAT), time(MAXFLOAT), cloud_original(new pcl::PointCloud<PointType>),
           cloud_transformed(new pcl::PointCloud<PointType>), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
