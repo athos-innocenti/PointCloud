@@ -4,7 +4,7 @@
 
 #include "IcpManager.h"
 
-IcpManager::IcpManager(const std::string &original_model, const std::string &transformed_model, int max_iter)
+IcpManager::IcpManager(const std::string &original_model, const std::string &transformed_model)
         : error(MAXFLOAT), time(MAXFLOAT), cloud_original(new pcl::PointCloud<PointType>),
           cloud_transformed(new pcl::PointCloud<PointType>), cloud_icp(new pcl::PointCloud<PointType>),
           transformation_matrix(Eigen::Matrix4d::Identity()), visualizer(Plotter()) {
@@ -18,7 +18,7 @@ IcpManager::IcpManager(const std::string &original_model, const std::string &tra
     assert(cloud_transformed->size() != 0);
     std::cout << "Loaded transformed model = " << cloud_transformed->size() << " points\n" << std::endl;
 
-    icp_num_iter = max_iter;
+    icp_iterations = 0;
 
     // If visualize is true plot result
     visualize = false;
@@ -56,15 +56,16 @@ void IcpManager::initialTransformation(double r_x, double r_y, double r_z, doubl
     *cloud_transformed = *cloud_icp;
 }
 
-void IcpManager::runIcp() {
+void IcpManager::runIcp(int max_iter) {
     std::unique_ptr<IterativeClosestPoint> icp(new IterativeClosestPoint);
-    icp->setMaximumIterations(icp_num_iter);
+    icp->setMaximumIterations(max_iter);
     icp->setInputSource(cloud_icp);
     icp->setInputTarget(cloud_original);
     timer.tic();
     icp->align(*cloud_icp);
     time = timer.toc();
-    std::cout << "Applied " << icp->nr_iterations_ << " ICP iterations in " << time << " ms" << std::endl;
+    icp_iterations = icp->nr_iterations_;
+    std::cout << "Applied " << icp_iterations << " ICP iterations in " << time << " ms" << std::endl;
     assert(icp->hasConverged());
     error = icp->getFitnessScore();
     std::cout << "ICP has converged, fitness score = " << error << std::endl;
@@ -74,7 +75,7 @@ void IcpManager::runIcp() {
 
     // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
     if (visualize) {
-        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp_num_iter);
+        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, max_iter);
         while (!visualizer.getViewer().wasStopped())
             visualizer.getViewer().spinOnce();
         visualizer.getViewer().close();
@@ -87,4 +88,8 @@ double IcpManager::getError() const {
 
 double IcpManager::getTime() const {
     return time;
+}
+
+int IcpManager::getIcpIterations() const {
+    return icp_iterations;
 }

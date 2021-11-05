@@ -16,11 +16,11 @@ typedef pcl::IterativeClosestPoint<PointType, PointType> IterativeClosestPoint;
 
 class IcpManager {
 public:
-    IcpManager(const std::string &original_model, const std::string &transformed_model, int max_iter);
+    IcpManager(const std::string &original_model, const std::string &transformed_model);
 
     virtual ~IcpManager();
 
-    void runIcp();
+    void runIcp(int max_iter);
 
     void initialTransformation(double rot_x, double rot_y, double rot_z, double trs_x, double trs_y, double trs_z);
 
@@ -28,10 +28,12 @@ public:
 
     double getTime() const;
 
+    int getIcpIterations() const;
+
 private:
     static void print4x4Matrix(const Eigen::Matrix4d &matrix);
 
-    int icp_num_iter;
+    int icp_iterations;
 
     double error;
     double time;
