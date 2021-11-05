@@ -22,9 +22,11 @@ public:
                       int tries_iter, const std::list<int> &max_iter);
 
 private:
-    static double calculateAvg(const std::list<double> &list);
+    template<typename T>
+    T calculateAvg(const std::list<T> &list);
 
-    void storeData(const std::list<double> &list, const std::string &name_file);
+    template<typename T>
+    void storeData(const std::list<T> &list, const std::string &name_file);
 
     std::ofstream data_file;
 
