@@ -75,7 +75,7 @@ void IcpManager::runIcp(int max_iter) {
 
     // Visualization = Viewports + Colors + Text + Camera (position orientation) + Size + Reference + KeyboardCallback
     if (visualize) {
-        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, max_iter);
+        visualizer.setViewer(cloud_original, cloud_transformed, cloud_icp, icp->getMaximumIterations());
         while (!visualizer.getViewer().wasStopped())
             visualizer.getViewer().spinOnce();
         visualizer.getViewer().close();
